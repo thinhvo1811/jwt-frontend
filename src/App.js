@@ -1,7 +1,8 @@
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.scss';
 import Login from './components/Login/Login';
-import Nav from './components/Navigation/Nav';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// import Nav from './components/Navigation/Nav';
+import Register from './components/Register/Register';
 
 function App() {
     return (
@@ -14,6 +15,9 @@ function App() {
                     <Route path="/contact">Contact</Route>
                     <Route path="/login">
                         <Login />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
                     </Route>
                     <Route path="/" exact>
                         Home
