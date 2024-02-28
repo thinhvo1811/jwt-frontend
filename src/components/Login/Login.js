@@ -1,10 +1,51 @@
-import './Login.scss';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import './Login.scss';
+import { loginUser } from '../../services/userService';
 
 const Login = (props) => {
+    const defaultValidInput = {
+        isValidValueLogin: true,
+        isValidPassword: true,
+    };
+
+    const [valueLogin, setValueLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
     let history = useHistory();
+
     const handleCreateNewAccount = () => {
         history.push('/register');
+    };
+
+    const handleLogin = async () => {
+        setObjCheckInput(defaultValidInput);
+
+        if (!valueLogin) {
+            toast.error('Please enter your email address or phone number!');
+            setObjCheckInput({ ...defaultValidInput, isValidValueLogin: false });
+            return;
+        }
+        if (!password) {
+            toast.error('Please enter your password!');
+            setObjCheckInput({ ...defaultValidInput, isValidPassword: false });
+            return;
+        }
+
+        let response = await loginUser(valueLogin, password);
+
+        if (response && response.data && +response.data.EC === 0) {
+            let data = {
+                isAuthenticated: true,
+                token: 'fake token',
+            };
+            sessionStorage.setItem('account', JSON.stringify(data));
+            history.push('/users');
+        }
+        if (response && response.data && +response.data.EC !== 0) {
+            toast.error(response.data.EM);
+        }
     };
 
     return (
@@ -19,9 +60,23 @@ const Login = (props) => {
                     </div>
                     <div className="content-right col-12 col-md-5 d-flex flex-column gap-3 py-3">
                         <div className="brand d-md-none">JWT Fullstack</div>
-                        <input type="text" className="form-control" placeholder="Email address or phone number" />
-                        <input type="password" className="form-control" placeholder="Password" />
-                        <button className="btn btn-primary">Login</button>
+                        <input
+                            type="text"
+                            className={objCheckInput.isValidValueLogin ? 'form-control' : 'form-control is-invalid'}
+                            placeholder="Email address or phone number"
+                            value={valueLogin}
+                            onChange={(e) => setValueLogin(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            className={objCheckInput.isValidPassword ? 'form-control' : 'form-control is-invalid'}
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button className="btn btn-primary" onClick={() => handleLogin()}>
+                            Login
+                        </button>
                         <span className="text-center">
                             <a className="forgot-password" href="/">
                                 Forgotten password?
