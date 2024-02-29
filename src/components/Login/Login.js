@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Login.scss';
@@ -42,11 +42,28 @@ const Login = (props) => {
             };
             sessionStorage.setItem('account', JSON.stringify(data));
             history.push('/users');
+            window.location.reload();
         }
         if (response && response.data && +response.data.EC !== 0) {
             toast.error(response.data.EM);
         }
     };
+
+    const handlePressEnter = (e) => {
+        if (e.charCode === 13 && e.code === 'Enter') {
+            handleLogin();
+        }
+    };
+
+    useEffect(() => {
+        let session = sessionStorage.getItem('account');
+
+        if (session) {
+            history.push('/');
+            window.location.reload();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="login-container">
@@ -73,6 +90,7 @@ const Login = (props) => {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            onKeyPress={(e) => handlePressEnter(e)}
                         />
                         <button className="btn btn-primary" onClick={() => handleLogin()}>
                             Login
