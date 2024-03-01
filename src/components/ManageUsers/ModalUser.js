@@ -12,7 +12,7 @@ const ModalUser = (props) => {
         username: '',
         password: '',
         address: '',
-        sex: '',
+        sex: 'Male',
         groupId: '',
     };
 
@@ -78,8 +78,12 @@ const ModalUser = (props) => {
             if (response && response.data && response.data.EC === 0) {
                 props.onHide();
                 setUserData({ ...defaultUserData, groupId: userGroups[0].id });
-            } else {
+            }
+            if (response && response.data && response.data.EC !== 0) {
                 toast.error(response.data.EM);
+                let _validInputs = _.cloneDeep(validInputsDefault);
+                _validInputs[response.data.DT] = false;
+                setValidInputs(_validInputs);
             }
         }
     };
