@@ -9,7 +9,7 @@ import ModalUser from './ModalUser';
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentLimit] = useState(5);
+    const [currentLimit] = useState(8);
     const [totalPages, setTotalPages] = useState(0);
 
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
@@ -74,17 +74,25 @@ const Users = (props) => {
         setIsShowModalUser(true);
     };
 
+    const handleRefresh = async () => {
+        await fetchUsers();
+    };
+
     return (
         <>
             <div className="container">
                 <div className="manage-users-container">
                     <div className="user-header">
-                        <div className="title">
-                            <h3>Table Users</h3>
+                        <div className="title mt-3">
+                            <h3>Manage Users</h3>
                         </div>
-                        <div className="actions">
-                            <button className="btn btn-success">Refresh</button>
+                        <div className="actions my-3">
+                            <button className="btn btn-success refresh-btn" onClick={() => handleRefresh()}>
+                                <i className="fa fa-refresh"></i>
+                                Refresh
+                            </button>
                             <button className="btn btn-primary" onClick={() => handleCreateUser()}>
+                                <i className="fa fa-plus-circle"></i>
                                 Add new user
                             </button>
                         </div>
@@ -99,6 +107,7 @@ const Users = (props) => {
                                         <th scope="col">Email</th>
                                         <th scope="col">Username</th>
                                         <th scope="col">Group</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,18 +120,20 @@ const Users = (props) => {
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
                                                 <td>
-                                                    <button
-                                                        className="btn btn-warning mx-3"
+                                                    <span
+                                                        title="Edit"
+                                                        className="edit-btn"
                                                         onClick={() => handleEditUser(item)}
                                                     >
-                                                        Edit
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-danger"
+                                                        <i className="fa fa-pencil"></i>
+                                                    </span>
+                                                    <span
+                                                        title="Delete"
+                                                        className="delete-btn"
                                                         onClick={() => handleDeleteUser(item)}
                                                     >
-                                                        Delete
-                                                    </button>
+                                                        <i className="fa fa-trash-o"></i>
+                                                    </span>
                                                 </td>
                                             </tr>
                                         );

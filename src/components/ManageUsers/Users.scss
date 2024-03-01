@@ -5,3 +5,28 @@
         }
     }
 }
+
+.manage-users-container {
+    i {
+        padding-right: 7px;
+    }
+
+    .actions {
+        .refresh-btn {
+            margin-right: 10px;
+        }
+    }
+
+    .user-body {
+        .edit-btn {
+            color: orange;
+            cursor: pointer;
+            padding-right: 10px;
+        }
+
+        .delete-btn {
+            color: red;
+            cursor: pointer;
+        }
+    }
+}

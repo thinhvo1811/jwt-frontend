@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import { fetchGroups, createNewUser } from '../../services/userService';
+import { fetchGroups, createNewUser, updateUser } from '../../services/userService';
 
 const ModalUser = (props) => {
     const { action, dataModal } = props;
@@ -72,6 +72,9 @@ const ModalUser = (props) => {
     };
 
     const checkValidateInputs = () => {
+        if (action === 'UPDATE') {
+            return true;
+        }
         setValidInputs(validInputsDefault);
         let arr = ['email', 'phone', 'password', 'groupId'];
         let check = true;
@@ -92,10 +95,13 @@ const ModalUser = (props) => {
     const handleConfirmUser = async () => {
         let check = checkValidateInputs();
         if (check) {
-            let response = await createNewUser(userData);
+            let response = action === 'CREATE' ? await createNewUser(userData) : await updateUser(userData);
             if (response && response.data && response.data.EC === 0) {
                 props.onHide();
-                setUserData({ ...defaultUserData, groupId: userGroups[0].id });
+                setUserData({
+                    ...defaultUserData,
+                    groupId: userGroups && userGroups.length > 0 ? userGroups[0].id : '',
+                });
             }
             if (response && response.data && response.data.EC !== 0) {
                 toast.error(response.data.EM);
@@ -106,7 +112,6 @@ const ModalUser = (props) => {
         }
     };
 
-    console.log(userData);
     return (
         <Modal size="lg" show={props.show} onHide={props.onHide} className="modal-user">
             <Modal.Header closeButton>
