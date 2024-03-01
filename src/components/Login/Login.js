@@ -44,7 +44,7 @@ const Login = (props) => {
             history.push('/users');
             window.location.reload();
         }
-        if (response + response.EC !== 0) {
+        if (response && +response.EC !== 0) {
             toast.error(response.EM);
         }
     };
