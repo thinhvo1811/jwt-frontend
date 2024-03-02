@@ -36,4 +36,17 @@ const updateUser = (userData) => {
     return axios.put('/api/v1/user/update', { ...userData });
 };
 
-export { registerNewUser, loginUser, fetchAllUsers, deleteUser, fetchGroups, createNewUser, updateUser };
+const getUserAccount = () => {
+    return axios.get('/api/v1/account');
+};
+
+export {
+    registerNewUser,
+    loginUser,
+    fetchAllUsers,
+    deleteUser,
+    fetchGroups,
+    createNewUser,
+    updateUser,
+    getUserAccount,
+};

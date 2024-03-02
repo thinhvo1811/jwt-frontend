@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Login.scss';
@@ -48,10 +48,9 @@ const Login = (props) => {
                 token,
                 account: { groupWithRoles, email, username },
             };
-            sessionStorage.setItem('account', JSON.stringify(data));
+
             loginContext(data);
             history.push('/users');
-            // window.location.reload();
         }
         if (response && +response.EC !== 0) {
             toast.error(response.EM);
@@ -63,16 +62,6 @@ const Login = (props) => {
             handleLogin();
         }
     };
-
-    useEffect(() => {
-        let session = sessionStorage.getItem('account');
-
-        if (session) {
-            history.push('/');
-            window.location.reload();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return (
         <div className="login-container">
