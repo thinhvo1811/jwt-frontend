@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -31,7 +32,22 @@ instance.interceptors.response.use(
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
-        return Promise.reject(error);
+        // eslint-disable-next-line no-mixed-operators
+        const status = (error && error.response && error.response.status) || 500;
+
+        switch (status) {
+            case 401: {
+                toast.error('Unauthorized the user. Please login!');
+                return Promise.reject(error);
+            }
+            case 403: {
+                toast.error(`You don't have permission to access this resource...`);
+                return Promise.reject(error);
+            }
+            default: {
+                return Promise.reject(error);
+            }
+        }
     },
 );
 
