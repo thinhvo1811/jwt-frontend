@@ -14,11 +14,8 @@ const UserProvider = ({ children }) => {
     };
 
     // Logout updates the user data to default
-    const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
+    const logoutContext = () => {
+        setUser({ ...userDefault, isLoading: false });
     };
 
     const fetchUser = async () => {
@@ -49,12 +46,12 @@ const UserProvider = ({ children }) => {
         ) {
             fetchUser();
         } else {
-            setUser({ ...userDefault, isLoading: false });
+            setUser({ ...user, isLoading: false });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <UserContext.Provider value={{ user, loginContext, logout }}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, loginContext, logoutContext }}>{children}</UserContext.Provider>;
 };
 
 export { UserContext, UserProvider };
