@@ -1,0 +1,41 @@
+.nav-header {
+    .bg-header {
+        background-color: #20232a;
+    }
+
+    .navbar-brand {
+        img {
+            animation: app-logo-spin infinite 20s linear;
+        }
+
+        @keyframes app-logo-spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    a,
+    .nav-link {
+        color: white !important;
+
+        &:hover {
+            color: #61dafb !important;
+        }
+    }
+
+    .nav-link {
+        &.active {
+            color: #61dafb !important;
+        }
+    }
+
+    .dropdown-menu {
+        a {
+            color: #212529 !important;
+        }
+    }
+}
