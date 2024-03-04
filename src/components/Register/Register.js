@@ -1,8 +1,9 @@
-import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import './Register.scss';
 import { registerNewUser } from '../../services/userService';
+import { UserContext } from '../../context/UserContext';
 
 const Register = (props) => {
     const defaultValidInput = {
@@ -18,6 +19,7 @@ const Register = (props) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
+    const { user } = useContext(UserContext);
 
     let history = useHistory();
 
@@ -73,12 +75,23 @@ const Register = (props) => {
         return true;
     };
 
+    useEffect(() => {
+        if (user && user.isAuthenticated) {
+            history.push('/');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="register-container">
             <div className="container">
                 <div className="row px-3 px-md-0">
                     <div className="content-left d-none col-md-7 d-md-block">
-                        <div className="brand">JWT Fullstack</div>
+                        <div className="brand">
+                            <Link to="/">
+                                <span title="Return to HomePage">JWT Fullstack</span>
+                            </Link>
+                        </div>
                         <div className="detail">
                             Learn about JSON Web Tokens, what are they, how they work, when and why you should use them.
                         </div>
@@ -145,6 +158,12 @@ const Register = (props) => {
                             <button className="btn btn-success" onClick={() => handleLogin()}>
                                 Already've an account. Login
                             </button>
+                            <div className="return mt-3">
+                                <Link to="/">
+                                    <i className="fa fa-arrow-circle-left"></i>
+                                    <span title="Return to HomePage">Return to HomePage</span>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Login.scss';
 import { loginUser } from '../../services/userService';
 import { UserContext } from '../../context/UserContext';
 
 const Login = (props) => {
-    const { loginContext } = useContext(UserContext);
+    const { user, loginContext } = useContext(UserContext);
 
     const defaultValidInput = {
         isValidValueLogin: true,
@@ -64,12 +64,23 @@ const Login = (props) => {
         }
     };
 
+    useEffect(() => {
+        if (user && user.isAuthenticated) {
+            history.push('/');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="login-container">
             <div className="container">
                 <div className="row px-3 px-md-0">
                     <div className="content-left d-none col-md-7 d-md-block">
-                        <div className="brand">JWT Fullstack</div>
+                        <div className="brand">
+                            <Link to="/">
+                                <span title="Return to HomePage">JWT Fullstack</span>
+                            </Link>
+                        </div>
                         <div className="detail">
                             Learn about JSON Web Tokens, what are they, how they work, when and why you should use them.
                         </div>
@@ -104,6 +115,12 @@ const Login = (props) => {
                             <button className="btn btn-success" onClick={() => handleCreateNewAccount()}>
                                 Create new account
                             </button>
+                            <div className="return mt-3">
+                                <Link to="/">
+                                    <i className="fa fa-arrow-circle-left"></i>
+                                    <span title="Return to HomePage">Return to HomePage</span>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

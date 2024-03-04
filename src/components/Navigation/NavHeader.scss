@@ -1,4 +1,14 @@
 .nav-header {
+    padding-bottom: 0.5rem;
+    position: fixed;
+    width: 100%;
+    opacity: 1;
+    z-index: 1;
+
+    .navbar {
+        padding-bottom: 0 !important;
+    }
+
     .bg-header {
         background-color: #20232a;
     }
@@ -30,6 +40,7 @@
     .nav-link {
         &.active {
             color: #61dafb !important;
+            border-bottom: 2px solid;
         }
     }
 

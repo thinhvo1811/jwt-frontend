@@ -84,7 +84,7 @@ const Users = (props) => {
                 <div className="manage-users-container">
                     <div className="user-header">
                         <div className="title mt-3">
-                            <h3>Manage Users</h3>
+                            <h4>Manage Users</h4>
                         </div>
                         <div className="actions my-3">
                             <button className="btn btn-success refresh-btn" onClick={() => handleRefresh()}>
